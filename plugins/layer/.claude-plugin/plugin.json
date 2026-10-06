@@ -1,0 +1,28 @@
+{
+  "name": "layer",
+  "version": "0.1.0",
+  "description": "AI game asset creation — generate 2D, 3D, video, and audio assets and run creative workflows from your agent, powered by Layer's model-agnostic platform.",
+  "author": {
+    "name": "Layer",
+    "url": "https://layer.ai"
+  },
+  "homepage": "https://layer.ai",
+  "repository": "https://github.com/layerai/agent-plugin",
+  "license": "Apache-2.0",
+  "keywords": [
+    "layer",
+    "game-assets",
+    "image-generation",
+    "3d",
+    "video",
+    "audio",
+    "creative-workflows",
+    "mcp"
+  ],
+  "displayName": "Layer",
+  "icon": "./assets/logo.png",
+  "documentationUrl": "https://layer.ai/docs/mcp",
+  "supportUrl": "https://help.layer.ai/en/",
+  "privacyPolicyUrl": "https://layer.ai/privacy-policy",
+  "termsOfServiceUrl": "https://layer.ai/terms-of-service"
+}
