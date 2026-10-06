@@ -1,73 +1,76 @@
-# Layer — Agent Plugin
+# Layer agent plugins
 
-Bring [**Layer**](https://layer.ai), the platform for AI game-asset creation, into any
-agent that speaks the [Agent Plugins](https://agent-plugins.org) standard.
+Plugins that bring [Layer](https://layer.ai), the platform for AI game-asset creation, into
+coding and chat agents. Each plugin has one source tree. A build script generates the
+Claude Code files from it, and CI packages the OpenAI upload.
 
-Generate **2D images, 3D meshes, video, and audio**, browse a model-agnostic catalog
-(FLUX, Imagen, Recraft, Kling, Minimax, and more), and run creative workflows — all from
-your agent, wired to Layer's remote MCP server.
-
-## What's in this plugin
-
-| File | Purpose |
+| Plugin | What it does |
 | --- | --- |
-| `plugin.json` | Plugin manifest (Agent Plugins spec v1.0.0). |
-| `mcp.json` | Declares the Layer MCP server (remote, Streamable HTTP). |
-| `skills/using-layer/` | An onboarding skill that primes agents on Layer's concepts and tools. |
-
-The plugin points at Layer's hosted MCP server — there is no local server to run.
-
-## MCP server
-
-```json
-{
-  "type": "streamable-http",
-  "url": "https://mcp.app.layer.ai/mcp"
-}
-```
-
-Authentication is **OAuth**, handled by your MCP client — there is **no API key** to
-configure and no secret in this repository. On first use, your client walks you through
-connecting your Layer account.
-
-## Requirements
-
-- An MCP client / agent that supports the Agent Plugins standard and remote
-  (Streamable HTTP) MCP servers.
-- A **Layer account**. A free tier is available; sign up at [layer.ai](https://layer.ai).
+| [`layer`](plugins/layer) | Layer's remote MCP server plus the `using-layer` onboarding skill. |
 
 ## Install
 
-Install this plugin in your Agent Plugins–compatible client by pointing it at this
-repository:
+**Claude Code**
 
+```sh
+claude plugin marketplace add layerai/agent-plugin
+claude plugin install layer@layer
 ```
-https://github.com/layerai/agent-plugin
+
+**Claude (claude.ai, Desktop, Cowork):** Customize → Plugins → Add → Add marketplace →
+`layerai/agent-plugin`, then install **Layer**.
+
+**Codex**
+
+```sh
+codex plugin marketplace add layerai/agent-plugin
+codex plugin add layer@layer
 ```
 
-Then follow your client's prompt to complete the OAuth connection to Layer. Once
-connected, the Layer tools (generate, estimate, list models, run workflows, upload files,
-…) become available, and the `using-layer` skill helps your agent use them well.
+**ChatGPT desktop:** add the marketplace with the Codex command above, restart the app, open
+the Plugins Directory, choose the **Layer** marketplace, and install.
 
-## Capabilities
+**Other Agent Plugins clients** (Cursor, GitHub Copilot, VS Code, Kiro): install the
+`plugins/layer` folder of this repository as described in your client's docs.
 
-- **Generate** images, 3D, video, and audio via Forge and multi-step workflows.
-- **Estimate** the Creative Unit (CU) cost of any generation before running it.
-- **Browse & recommend** models across every modality.
-- **Manage** workspaces, projects, runs, and file uploads.
+Every client then asks you to connect your Layer account over OAuth.
 
-The server also ships **instruction tools** (`get_instructions`,
-`get_forge_instructions`, `get_workflow_instructions`) that provide authoritative,
-always-current usage guidance to your agent at runtime.
+## Repository layout
 
-## Compatibility notes
+```text
+plugins/<name>/
+  plugin.json                  source: Agent Plugins manifest
+                               (OpenAI listing under extensions["com.openai"],
+                                Claude-only fields under extensions["com.anthropic"])
+  mcp.json                     source: MCP servers
+  skills/                      source: shared by every client; no Claude-specific wording
+  assets/                      source: logo and other listing images
+  README.md                    source: plugin readme (Anthropic's directory needs 40+ words)
+  .claude-plugin/plugin.json   generated
+  .mcp.json                    generated
+.claude-plugin/marketplace.json    generated: Claude marketplace
+.agents/plugins/marketplace.json   generated: Codex and ChatGPT marketplace
+scripts/build.mjs                  checks the sources and writes the generated files
+```
 
-This plugin ships only the **portable core** defined by Agent Plugins v1.0.0 — no
-client-specific extension blocks. It works in any client that supports remote MCP servers.
-Client-specific enhancements can be added later under a reverse-domain
-[extension namespace](https://agent-plugins.org/plugin-authors/client-extensions) without
-affecting portability.
+## Development
+
+Requires Node 22.
+
+```sh
+node --test                    # unit tests
+node scripts/build.mjs         # check sources, regenerate files; commit the result
+node scripts/build.mjs --zip   # also write dist/<name>-<version>.zip for OpenAI
+claude plugin validate . --strict
+claude plugin validate plugins/<name> --strict
+```
+
+CI fails if a check fails, if the generated files are stale, or if Claude's validator
+reports anything. Every CI run uploads the OpenAI ZIPs as the `openai-plugin-zips` artifact.
+
+To add a plugin, create `plugins/<name>/` with the source files above, run the build, and
+commit. To release, see [PUBLISHING.md](PUBLISHING.md).
 
 ## License
 
-[Apache-2.0](./LICENSE) © Layer
+[Apache-2.0](LICENSE) © Layer

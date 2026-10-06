@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Unit tests
+        run: node --test
+
+      - name: Render, check and package
+        run: node scripts/build.mjs --zip
+
+      - name: Generated files are committed
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git status --porcelain
+            echo "::error::Generated files are stale. Run 'node scripts/build.mjs' and commit the result."
+            exit 1
+          fi
+
+      - name: Agent Plugins schemas
+        run: |
+          curl -fsSL https://agent-plugins.org/schemas/1.0.0/plugin.schema.json -o "$RUNNER_TEMP/plugin.schema.json"
+          curl -fsSL https://agent-plugins.org/schemas/1.0.0/mcp.schema.json -o "$RUNNER_TEMP/mcp.schema.json"
+          npx --yes ajv-cli@5.0.0 validate --spec=draft2020 -s "$RUNNER_TEMP/plugin.schema.json" -d "plugins/*/plugin.json"
+          npx --yes ajv-cli@5.0.0 validate --spec=draft2020 -s "$RUNNER_TEMP/mcp.schema.json" -d "plugins/*/mcp.json"
+
+      - name: Claude plugin validation
+        run: |
+          npm install -g @anthropic-ai/claude-code@2.1.289
+          claude plugin validate . --strict
+          for dir in plugins/*/; do claude plugin validate "$dir" --strict; done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: openai-plugin-zips
+          path: dist/*.zip
+          if-no-files-found: error

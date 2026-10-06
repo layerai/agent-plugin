@@ -39,11 +39,17 @@ the map of what's available so you know a capability exists:
 
 - **Orient:** `get_instructions`, `get_forge_instructions`, `get_workflow_instructions`
 - **Account context:** `list_workspaces`, `get_workspace`, `list_projects`, `get_project`
-- **Pick a model:** `list_models`, `get_model`, `get_model_recommendations`
-- **Generate (Forge):** `estimate_forge_price` → `execute_forge` → `get_forge_run`
-- **Generate (Workflows):** `list_workflows`, `estimate_workflow_cost` → `execute_workflow` →
-  `get_workflow_run`, `cancel_workflow_run`
+- **Pick a model:** `list_base_models`, `get_base_model`
+- **Generate (Forge):** `estimate_forge_price` → `execute_forge` → `get_forge_run`,
+  `cancel_inference`
+- **Generate (Workflows):** `list_workflows`, `import_workflow`, `get_blueprint_system_config`,
+  `estimate_workflow_price` → `execute_workflow` → `get_workflow_run`, `cancel_workflow_run`
 - **Video timeline:** `estimate_video_timeline_price` → `render_video_timeline`
+- **Reference sets and training:** `list_reference_sets`, `get_reference_set`,
+  `create_reference_set`, `estimate_training_price` → `start_training` → `get_training_status`,
+  `list_training_runs`, `get_trained_model`, `cancel_training_run`
+- **Image utilities:** `compose_image`, `render_text`, `split_sprite_sheet`, `pack_sprite_sheet`
+- **Scoring:** `list_output_scoring_rules`, `score_files`, `get_file_scores`
 - **Inspect a run:** `get_generation_run`
 - **Files:** `request_file_upload_url`, `upload_file`
 

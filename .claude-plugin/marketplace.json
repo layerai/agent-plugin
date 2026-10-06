@@ -1,0 +1,14 @@
+{
+  "name": "layer",
+  "description": "Layer plugins for AI game-asset creation.",
+  "owner": {
+    "name": "Layer"
+  },
+  "plugins": [
+    {
+      "name": "layer",
+      "source": "./plugins/layer",
+      "description": "AI game asset creation — generate 2D, 3D, video, and audio assets and run creative workflows from your agent, powered by Layer's model-agnostic platform."
+    }
+  ]
+}
