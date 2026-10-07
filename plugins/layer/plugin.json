@@ -25,7 +25,7 @@
       "interface": {
         "displayName": "Layer",
         "shortDescription": "AI game asset creation",
-        "longDescription": "Layer is a model-agnostic platform for AI game-asset creation. Generate 2D images, 3D meshes, video, and audio with models such as FLUX, Imagen, Recraft, Kling, and Minimax; estimate the creative-unit cost of a generation before running it; run saved multi-step creative workflows; and manage your Layer workspaces, projects, and file uploads. Connect your existing Layer account to get started.",
+        "longDescription": "Layer is a model-agnostic platform for AI game-asset creation. Generate 2D images, 3D meshes, video, and audio; estimate the creative-unit cost of a generation before running it; run saved multi-step creative workflows; and manage your Layer workspaces, projects, and file uploads. Connect your existing Layer account to get started.",
         "developerName": "Layer",
         "category": "Creativity",
         "websiteURL": "https://layer.ai",
