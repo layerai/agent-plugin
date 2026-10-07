@@ -20,6 +20,11 @@ Your client handles OAuth. There is no API key and no secret in this plugin. On 
 your client asks you to connect your Layer account. A free tier is available at
 [layer.ai](https://layer.ai).
 
+## Privacy
+
+Layer's subprocessors are listed at
+[trust.layer.ai/subprocessors](https://trust.layer.ai/subprocessors).
+
 ## Capabilities
 
 - **Generate** images, 3D, video, and audio with Forge and multi-step workflows.
