@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "layer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "AI game asset creation — generate 2D, 3D, video, and audio assets and run creative workflows from your agent, powered by Layer's model-agnostic platform.",
   "author": {
     "name": "Layer",
@@ -41,6 +41,7 @@
       },
       "onboardingSkill": "./skills/using-layer/SKILL.md",
       "review": {
+        "demo_recording_url": "https://media.app.layer.ai/workspaces/16a8d0c0-56b6-4517-9a87-e4321f1a64ab/files/24c4cf36-1b8e-490c-98e9-f71445215daf/layer-plugin-fast.mp4",
         "test_cases": {
           "positive": [
             {
