@@ -1,6 +1,6 @@
 {
   "name": "layer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "AI game asset creation — generate 2D, 3D, video, and audio assets and run creative workflows from your agent, powered by Layer's model-agnostic platform.",
   "author": {
     "name": "Layer",
